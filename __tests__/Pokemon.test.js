@@ -1,6 +1,7 @@
 
 
-const {Pokemon, Fire, Water, Grass, Normal,Charmander,Squirtle,Bulbasaur,Rattata,Pokeballs} = require('../pokemon')
+const { default: expect } = require('expect')
+const {Pokemon, Fire, Water, Grass, Normal,Charmander,Squirtle,Bulbasaur,Rattata,Pokeballs, Trainer} = require('../pokemon')
 
 describe("pokemon()",()=>{
     test("should return pokemon with all correct attributes",()=>{
@@ -118,4 +119,39 @@ describe("pokemon()",()=>{
         pokeball.throw(squirtle)
         expect(pokeball.contains()).toBe('squirtle')
     })
+    test("new empty pokeball in belt can catch squirtle", ()=>{
+        const ash = new Trainer ()
+        const squirtle = new Squirtle ()
+        expect(ash.belt.pokeball1.throw(squirtle)).toEqual("you caught squirtle")
+    })
+    test("if trainer catch method will catch pokemon with empty ball", () => {
+        const ash = new Trainer ()
+        const bulbasaur = new Bulbasaur ()
+        const rattata = new Rattata ()
+        const testCatchBall1 = ash.catch(bulbasaur)
+        const testCatchBall2 = ash.catch(rattata)
+        expect(testCatchBall1).toBe("you caught bulbasaur")
+        expect(testCatchBall2).toBe("you caught rattata")
+        expect(ash.belt.pokeball1.contents).toBe("bulbasaur")
+        expect(ash.belt.pokeball2.contents).toBe("rattata")
+    })
+    test("if trainer catch method will catch pokemon with empty ball", () => {
+        const ash = new Trainer ()
+        const bulbasaur = new Bulbasaur ()
+        const rattata = new Rattata ()
+        const rattata1 = new Rattata ()
+        const rattata2 = new Rattata ()
+        const rattata3 = new Rattata ()
+        const rattata4 = new Rattata ()
+        ash.catch(bulbasaur)
+        ash.catch(rattata)
+        ash.catch(rattata1)
+        ash.catch(rattata2)
+        ash.catch(rattata3)
+        ash.catch(rattata4)
+        const rattata5 = new Rattata ()
+        expect(ash.catch(rattata5)).toBe("pokeballs are full")
+        console.log(ash.belt)
+    })
+
 })

@@ -122,4 +122,26 @@ class Pokeballs{
     }
 }
 
-module.exports= {Pokemon, Fire, Water, Grass, Normal,Charmander,Squirtle,Bulbasaur,Rattata, Pokeballs}
+class Trainer{
+    constructor(){
+        this.belt = {
+            pokeball1: new Pokeballs(),
+            pokeball2: new Pokeballs(),
+            pokeball3: new Pokeballs(),
+            pokeball4: new Pokeballs(),
+            pokeball5: new Pokeballs(),
+            pokeball6: new Pokeballs(),
+        }
+    }
+    catch(pokemon){
+        for (const ball in this.belt){
+            const poke = this.belt[ball]
+            if(poke.contents === "empty"){
+               return poke.throw(pokemon)
+            }
+        }
+        return "pokeballs are full"
+    }
+}
+
+module.exports= {Pokemon, Fire, Water, Grass, Normal,Charmander,Squirtle,Bulbasaur,Rattata, Pokeballs, Trainer}
