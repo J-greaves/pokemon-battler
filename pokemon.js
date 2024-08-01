@@ -1,3 +1,6 @@
+const { typeOf } = require("react-is")
+
+
 class Pokemon{
     constructor(name,hitPoints,attackDamage,move){
         this.name=name
@@ -70,5 +73,50 @@ class Normal extends Pokemon{
     }
 }
 
+class Charmander extends Fire{
+    constructor (hitPoints, attackDamage){
+        super(hitPoints, attackDamage)
+            this.name = 'charmander'
+            this.move = 'ember'
+    }
+}
+class Squirtle extends Water{
+    constructor (hitPoints, attackDamage){
+        super(hitPoints, attackDamage)
+            this.name = 'squirtle'
+            this.move = 'water gun'
+    }
+}
+class Bulbasaur extends Grass{
+    constructor (hitPoints, attackDamage){
+        super(hitPoints, attackDamage)
+            this.name = 'bulbasaur'
+            this.move = 'vine whip'
+    }
+}
+class Rattata extends Normal{
+    constructor (hitPoints, attackDamage){
+        super(hitPoints, attackDamage)
+            this.name = 'rattata'
+    }
+}
+class Pokeballs{
+    constructor(){
+        this.contents = 'empty' 
+    }
+    throw(pokemon){
+        if(this.contents !== 'empty' &&pokemon !== undefined){
+            return 'forbidden move'
+        }else if(this.contents==='empty' && pokemon !== undefined){
+        this.contents=pokemon.name
+        return 'you caught '+pokemon.name
+        }else if(this.contents==='empty' && pokemon === undefined){
+            return 'there are no pokemon'
+        }else return `go ${this.contents}`
+    }
+    isEmpty(){
+        return this.contents==='empty'
+    }
+}
 
-module.exports= {Pokemon, Fire, Water, Grass, Normal}
+module.exports= {Pokemon, Fire, Water, Grass, Normal,Charmander,Squirtle,Bulbasaur,Rattata, Pokeballs}
