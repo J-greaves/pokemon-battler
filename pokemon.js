@@ -117,6 +117,9 @@ class Pokeballs{
     isEmpty(){
         return this.contents==='empty'
     }
+    contains(){
+        return this.contents==='empty'? 'empty...':this.contents
+    }
 }
 
 module.exports= {Pokemon, Fire, Water, Grass, Normal,Charmander,Squirtle,Bulbasaur,Rattata, Pokeballs}

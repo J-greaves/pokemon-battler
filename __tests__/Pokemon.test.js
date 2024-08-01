@@ -114,8 +114,8 @@ describe("pokemon()",()=>{
     test("returns name of pokemon in ball or empty",()=>{
         const squirtle = new Squirtle()
         const pokeball = new Pokeballs ()
-        expect(pokeball.contents).toBe('empty')
+        expect(pokeball.contains()).toBe('empty...')
         pokeball.throw(squirtle)
-        expect(pokeball.contents).toBe('squirtle')
+        expect(pokeball.contains()).toBe('squirtle')
     })
 })
