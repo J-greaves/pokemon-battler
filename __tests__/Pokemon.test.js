@@ -1,7 +1,7 @@
 
 
-const { default: expect } = require('expect')
-const {Pokemon, Fire, Water, Grass, Normal,Charmander,Squirtle,Bulbasaur,Rattata,Pokeballs, Trainer} = require('../pokemon')
+
+const {Pokemon, Fire, Water, Grass, Normal,Charmander,Squirtle,Bulbasaur,Rattata,Pokeballs, Trainer, Battle} = require('../pokemon')
 
 describe("pokemon()",()=>{
     test("should return pokemon with all correct attributes",()=>{
@@ -153,5 +153,43 @@ describe("pokemon()",()=>{
         expect(ash.catch(rattata5)).toBe("pokeballs are full")
         console.log(ash.belt)
     })
-
+    test("get pokemon method should find pokemon in belt and use throw to release it", () => {
+        const ash = new Trainer ()
+        expect(ash.getPokemon('rattata')).toBe('you do not have this pokemon')
+        const bulbasaur = new Bulbasaur ()
+        const rattata = new Rattata ()
+        const charmander = new Charmander()
+        ash.catch(rattata)
+        ash.catch(bulbasaur)
+        ash.catch(charmander)
+        console.log(ash.belt)
+        expect(ash.getPokemon(bulbasaur.name)).toBe("go bulbasaur")
+        expect(ash.getPokemon('charmander')).toBe("go charmander")
+    })
+    test("fight method should reduce hitpoints of defending pokemon",()=>{
+        const ash = new Trainer()
+        const brock = new Trainer()
+        const charmander1 = new Charmander()
+        const charmander2 = new Charmander()
+        ash.catch(charmander1)
+        brock.catch(charmander2)
+        const gymBattle = new Battle(ash,brock,'charmander','charmander')
+        gymBattle.fight()
+        expect(brock.belt.pokeball1.hitPoints).toBe(27)
+        gymBattle.fight()
+        expect(brock.belt.pokeball1.hitPoints).toBe(10)
+    })
+    test("fight method should reduce hitpoints of defending with effectiveness multiplier",()=>{
+        const ash = new Trainer()
+        const brock = new Trainer()
+        const charmander1 = new Charmander()
+        const squirtle = new Squirtle()
+        ash.catch(charmander1)
+        brock.catch(squirtle)
+        const gymBattle = new Battle(ash,brock,'charmander','squirtle')
+        gymBattle.fight()
+        expect(brock.belt.pokeball1.hitPoints).toBe(31)
+        gymBattle.fight()
+        expect(brock.belt.pokeball1.hitPoints).toBe(18)
+    })
 })

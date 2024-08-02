@@ -1,4 +1,4 @@
-const { typeOf } = require("react-is")
+
 
 
 class Pokemon{
@@ -74,41 +74,57 @@ class Normal extends Pokemon{
 }
 
 class Charmander extends Fire{
-    constructor (hitPoints, attackDamage){
-        super(hitPoints, attackDamage)
+    constructor (){
+        super()
             this.name = 'charmander'
             this.move = 'ember'
+            this.hitPoints = 44
+            this.attackDamage = 17
     }
 }
 class Squirtle extends Water{
-    constructor (hitPoints, attackDamage){
-        super(hitPoints, attackDamage)
+    constructor (){
+        super()
             this.name = 'squirtle'
             this.move = 'water gun'
+            this.hitPoints = 44
+            this.attackDamage = 16 
     }
 }
 class Bulbasaur extends Grass{
-    constructor (hitPoints, attackDamage){
-        super(hitPoints, attackDamage)
+    constructor (){
+        super()
             this.name = 'bulbasaur'
             this.move = 'vine whip'
+            this.hitPoints = 45
+            this.attackDamage = 16
     }
 }
 class Rattata extends Normal{
-    constructor (hitPoints, attackDamage){
-        super(hitPoints, attackDamage)
+    constructor (){
+        super()
             this.name = 'rattata'
+            this.hitPoints = 12
+            this.attackDamage = 1
     }
 }
 class Pokeballs{
     constructor(){
-        this.contents = 'empty' 
+        this.contents = 'empty'
+        this.hitPoints = 0
+        this.attackDamage = 0 
+        this.type = 'gamma'
+        this.move = 'flail' 
     }
     throw(pokemon){
         if(this.contents !== 'empty' &&pokemon !== undefined){
             return 'forbidden move'
         }else if(this.contents==='empty' && pokemon !== undefined){
         this.contents=pokemon.name
+        this.hitPoints=pokemon.hitPoints
+        this.attackDamage=pokemon.attackDamage
+        this.type=pokemon.type
+        this.move=pokemon.move
         return 'you caught '+pokemon.name
         }else if(this.contents==='empty' && pokemon === undefined){
             return 'there are no pokemon'
@@ -142,6 +158,68 @@ class Trainer{
         }
         return "pokeballs are full"
     }
+    getPokemon(name){
+        for (const ball in this.belt){
+            const pokeball = this.belt[ball]
+            if(pokeball.contents === name){
+               return pokeball.throw()
+            }
+    }
+    return 'you do not have this pokemon'
+    }
+    fightingPokemon(name){
+        for (const ball in this.belt){
+            const pokeball = this.belt[ball]
+            if(pokeball.contents === name){
+               return pokeball
+            }
+    }
+
+    }
+}
+class Battle{
+    constructor(trainer1,trainer2,pokemon1,pokemon2){
+        this.trainer1=trainer1
+        this.trainer2=trainer2
+        this.pokemon1=trainer1.fightingPokemon(pokemon1)
+        this.pokemon2=trainer2.fightingPokemon(pokemon2)
+        this.effect1=1
+        this.effect2=1
+    }
+    fight(){
+        this.typeChecker()
+        const first = this.pokemon1
+        const second = this.pokemon2
+        second.hitPoints -=Math.round(first.attackDamage*this.effect1)
+        first.hitPoints-=Math.round(second.attackDamage*this.effect2)
+    }
+    typeChecker(){
+        if(this.pokemon1.type==='fire'){
+            if(this.pokemon2.type==='water'){
+                this.effect1=0.75
+                this.effect2=1.25
+            }else if(this.pokemon2.type==='grass'){
+                this.effect1=1.25
+                this.effect2=0.75
+            }
+        }else if(this.pokemon1.type==='water'){
+            if(this.pokemon2.type==='grass'){
+                this.effect1=0.75
+                this.effect2=1.25
+            }else if(this.pokemon2.type==='fire'){
+                this.effect1=1.25
+                this.effect2=0.75
+            }
+        }else if(this.pokemon1.type==='grass'){
+            if(this.pokemon2.type==='fire'){
+                this.effect1=0.75
+                this.effect2=1.25
+            }else if(this.pokemon2.type==='water'){
+                this.effect1=1.25
+                this.effect2=0.75
+            }
+        }
+    }
 }
 
-module.exports= {Pokemon, Fire, Water, Grass, Normal,Charmander,Squirtle,Bulbasaur,Rattata, Pokeballs, Trainer}
+module.exports= {Pokemon, Fire, Water, Grass, Normal,Charmander,Squirtle,Bulbasaur,Rattata, Pokeballs, Trainer, Battle}
