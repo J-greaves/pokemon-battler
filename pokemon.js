@@ -190,8 +190,13 @@ class Battle{
         this.typeChecker()
         const first = this.pokemon1
         const second = this.pokemon2
+        if (this.pokemon1.hitPoints > 0 && this.pokemon2.hitPoints > 0){
         second.hitPoints -=Math.round(first.attackDamage*this.effect1)
         first.hitPoints-=Math.round(second.attackDamage*this.effect2)
+        return this.attackMessage()
+        } else if (this.pokemon1.hitPoints <= 0){
+            return `cannot fight, only ${this.pokemon2.contents} remains!`
+        } else {return `cannot fight, only ${this.pokemon1.contents} remains!`}
     }
     typeChecker(){
         if(this.pokemon1.type==='fire'){
@@ -218,6 +223,31 @@ class Battle{
                 this.effect1=1.25
                 this.effect2=0.75
             }
+        }
+    }
+    attackMessage(){
+        if (this.effect1 === 1.25 && this.pokemon1.hitPoints > 0 && this.pokemon2.hitPoints > 0) {
+            return `${this.pokemon1.contents}'s attack was super effective, ${this.pokemon2.contents}'s attack wasn't very effective`
+        } else if (this.effect1 === 0.75 && this.pokemon1.hitPoints > 0 && this.pokemon2.hitPoints > 0) {
+            return `${this.pokemon1.contents}'s attack wasn't very effective, ${this.pokemon2.contents}'s attack was super effective`
+        } else if (this.effect1 === 1 && this.pokemon1.hitPoints > 0 && this.pokemon2.hitPoints > 0) "both moves landed"
+        else if (this.effect1 === 1.25 && this.pokemon1.hitPoints <= 0 && this.pokemon2.hitPoints > 0){
+            return `${this.pokemon1.contents}'s attack was super effective, ${this.pokemon2.contents}'s attack wasn't very effective. ${this.pokemon1.contents} fainted`
+        }
+        else if (this.effect1 === 0.75 && this.pokemon1.hitPoints <= 0 && this.pokemon2.hitPoints > 0){
+            return `${this.pokemon1.contents}'s attack wasn't very effective, ${this.pokemon2.contents}'s attack was super effective. ${this.pokemon1.contents} fainted`
+        }
+        else if (this.effect1 === 1.25 && this.pokemon2.hitPoints <= 0){
+            return `${this.pokemon1.contents}'s attack was super effective. ${this.pokemon2.contents} fainted`
+        }
+        else if (this.effect1 === 0.75 && this.pokemon2.hitPoints <= 0){
+            return `${this.pokemon1.contents}'s attack wasn't very effective. ${this.pokemon2.contents} fainted`
+        } 
+        else if (this.pokemon2.hitPoints <= 0){
+            return `${this.pokemon1.contents}'s attack landed. ${this.pokemon2.contents} fainted`
+        }
+        else if (this.pokemon1.hitPoints <= 0){
+            return `both attacks landed. ${this.pokemon1.contents} fainted`
         }
     }
 }
