@@ -135,9 +135,9 @@ class Trainer{
     }
     catch(pokemon){
         for (const ball in this.belt){
-            const poke = this.belt[ball]
-            if(poke.contents === "empty"){
-               return poke.throw(pokemon)
+            const pokeball = this.belt[ball]
+            if(pokeball.contents === "empty"){
+               return pokeball.throw(pokemon)
             }
         }
         return "pokeballs are full"
